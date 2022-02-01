@@ -31,6 +31,8 @@ btn4.grid(row=0, column=4, padx=0, pady=25, ipady=5)
 frame = Frame(fenetre, background="white", width=1900, height=1000 , relief="solid", highlightcolor="red", highlightthickness=2, )
 frame.grid(row=1,column=0, columnspan=6, pady=45)
 
+#recherche
+
 
 
 fenetre.mainloop()
