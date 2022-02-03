@@ -1,8 +1,7 @@
-
-from distutils import command
 import json
 from tkinter import ttk,messagebox
 from tkinter import*
+import main
 
 def consultation():
     consul= Tk()
@@ -16,7 +15,6 @@ def consultation():
     consul.mainloop()
 
 def enregistrer():
-    dicty={}
 
     registre= Tk()
     registre.title("s'enregister")
@@ -54,28 +52,44 @@ def enregistrer():
     EntryAge = Entry(frame, width=90, borderwidth=3)
     EntryAge.pack(ipady=3)
 
+    labEmail = Label(frame, text="Email", width=90, font=('Arial', 20, "bold"))
+    labEmail.pack()
+    EntryEmail = Entry(frame, width=90, borderwidth=3)
+    EntryEmail.pack(ipady=3)
+
     # btnRendezVous = Label(frame, text="Rendez-vous", width=90, font=('Arial', 20, "bold"))
     # btnRendezVous.pack()
     
      # recuperationdes donees d'enregistrements
     def data_rdv():
         list_enregist=[]
-        dicty={}
         
-        try:
-            with open("list_enregistres.json", "r") as f:
-                json.load(f)
-        except json.decoder.JSONDecodeError:
-            dicty={
-                "civilite": EntryCivilite.get(),
-                "nom": EntryNom.get(),
-                "prenom": EntryPrenom.get(),
-                "age": EntryAge.get()
+        dicty={
+            "civilite": EntryCivilite.get(),
+            "nom": EntryNom.get(),
+            "prenom": EntryPrenom.get(),
+            "age": EntryAge.get(),
+            "email": EntryEmail.get()
             }
         list_enregist.append(dicty)
-        with open("list_enregistres.json", "w") as f:
-            json.dump(list_enregist, f, indent=4)
         print(list_enregist)
+        try:
+            with open("/Users/imac-05/Desktop/projetTkinter/list_enregistres.json", "r") as f:
+                json.load(f)
+
+        except json.decoder.JSONDecodeError:
+           
+            with open("/Users/imac-05/Desktop/projetTkinter/list_enregistres.json", "w") as f:
+                json.dump(list_enregist, f, indent=4)
+       
+
+        else:
+            with open("/Users/imac-05/Desktop/projetTkinter/list_enregistres.json", "r") as f:
+                json.load(f)
+            list_enregist.append(dicty)    
+
+        with open("/Users/imac-05/Desktop/projetTkinter/list_enregistres.json", "w") as f:
+            json.dump(list_enregist, f, indent=4) 
 
         EntryCivilite.delete(0, END)
         EntryNom.delete(0, END)
@@ -138,18 +152,18 @@ def rendezVous():
     
     rdz.mainloop()
 
-def connexion():
+def s_inscrire():
 
     connexion = Tk()
     connexion.title("connexion")
-    connexion.geometry("500x500")# taille de de la fenetre
+    connexion.geometry("500x580")# taille de de la fenetre
     connexion.configure( borderwidth=2)
     connexion.resizable(False, False)#empeche d'agrandir la fenetre
 
-    labelConnexion = Label(connexion, text="Connectez-vous ici !", background="#1cd6d3", width=100, height=2, font=('Arial', 22, "bold"), fg='red')
+    labelConnexion = Label(connexion, text="Inscrivez-vous ici !", background="#1cd6d3", width=100, height=2, font=('Arial', 22, "bold"), fg='red')
     labelConnexion.pack()
 
-    frame = Frame(connexion, width=350, height=350 , background="white", highlightbackground='white', highlightthickness=2)
+    frame = Frame(connexion, width=350, height=400 , background="white", highlightbackground='white', highlightthickness=2)
     frame.pack(pady=60)
 
     labUser= Label(frame, text="Nom utilisation", width=90, font=('Arial', 20, "bold"))
@@ -167,7 +181,102 @@ def connexion():
     EntryPassword= Entry(frame, width=90,  borderwidth=3)
     EntryPassword.pack(ipady=3)
 
-    btn = Button(frame, text="Enregistrer", width=30, height=2, fg="red", font=('Arial', 18, "bold"), cursor="mouse").pack( pady=20)
+    labConfirmPassword = Label(frame ,text=" Confirmer mot de pass", width=90, font=('Arial', 20, "bold"))
+    labConfirmPassword.pack()
+    EntryConfirPassword= Entry(frame, width=90,  borderwidth=3)
+    EntryConfirPassword.pack(ipady=3)
 
+    def recupDonneCon():
+        listData= []
+    
+        donnees ={
+            "user":  EntryUser.get(),
+            "Email":  EntryEmail.get(),
+            "Password":  EntryConfirPassword.get()
+        } 
+
+        
+        listData.append(donnees)
+        try: 
+            with open("/Users/imac-05/Desktop/projetTkinter/dataConnexion.json", "r") as ouvFicheJson:
+                json.load(ouvFicheJson)
+        except json.JSONDecodeError:
+            if EntryPassword.get() != EntryConfirPassword.get():
+                messagebox.showerror("Erreur","Mot de passe non identique!")
+            elif EntryPassword.get()== EntryConfirPassword.get():
+                with open("/Users/imac-05/Desktop/projetTkinter/dataConnexion.json","w") as ouvFicheJson:
+                    json.dump(listData, ouvFicheJson, indent=4)
+                
+                messagebox.showinfo("validation reussie!","Inscription reuissie!")
+
+        else:
+            with open("/Users/imac-05/Desktop/projetTkinter/dataConnexion.json", "r") as ouvFicheJson:
+                donnee =  json.load(ouvFicheJson)
+
+            donnee.append(donnees)
+            
+            if  EntryPassword.get() != EntryConfirPassword.get():
+                messagebox.showerror("Erreur","Mot de passe non identique!")
+            else:
+            
+                with open("/Users/imac-05/Desktop/projetTkinter/dataConnexion.json","w") as ouvFicheJson:
+                    json.dump(donnee, ouvFicheJson, indent=4)   
+            
+                messagebox.showinfo("validation reussie!","Inscription reuissie!")
+                
+        EntryUser.delete(0, END)
+        EntryEmail.delete(0, END)
+        EntryPassword.delete(0, END)
+        EntryConfirPassword.delete(0, END)
+        
+    btn = Button(frame, text="Insris", width=30, height=2, fg="red", font=('Arial', 18, "bold"), cursor="mouse", command=recupDonneCon)
+    btn.pack( pady=20)
+
+    
     connexion.mainloop()  
+    
+def connexion():
 
+    connexion = Tk()
+    connexion.title("connexion")
+    connexion.geometry("500x500")# taille de de la fenetre
+    connexion.configure( borderwidth=2)
+    connexion.resizable(False, False)#empeche d'agrandir la fenetre
+
+    labelConnexion = Label(connexion, text="Connectez-vous ici !", background="#1cd6d3", width=100, height=2, font=('Arial', 22, "bold"), fg='red')
+    labelConnexion.pack()
+
+    frame = Frame(connexion, width=350, height=350 , background="white", highlightbackground='white', highlightthickness=2)
+    frame.pack(pady=60)
+
+    
+
+    labEmail = Label(frame, text="Email", width=90,  font=('Arial', 20, "bold"))
+    labEmail.pack()
+    EntryEmail= Entry(frame, width=90, borderwidth=3)
+    EntryEmail.pack(ipady=3)
+
+    labPassword = Label(frame ,text="Mot de pass", width=90, font=('Arial', 20, "bold"))
+    labPassword.pack()
+    EntryPassword= Entry(frame, width=90,  borderwidth=3)
+    EntryPassword.pack(ipady=3)
+    def connecte():
+        with open("/Users/imac-05/Desktop/projetTkinter/dataConnexion.json","r") as f:
+            recupCompar = json.load(f)
+
+        for i in recupCompar:
+            for y in i.values():
+                if EntryEmail.get() in y and EntryPassword.get() in y:
+                    messagebox.showinfo("reuissie", "vous êtes connectez!")
+                break
+            else:
+                messagebox.showerror("Error", "vous n'êtes pas inscris!")
+   
+        EntryEmail.delete(0, END)
+        EntryPassword.delete(0, END)
+    
+                  
+    btn = Button(frame, text="connecté", width=30, height=2, fg="red", font=('Arial', 18, "bold"), cursor="mouse", command=connecte)
+    btn.pack( pady=20) 
+    
+    connexion.mainloop()
