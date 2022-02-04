@@ -1,7 +1,8 @@
 import json
 from tkinter import ttk,messagebox
 from tkinter import*
-import main
+import pageUser
+import os
 
 def consultation():
     consul= Tk()
@@ -15,10 +16,11 @@ def consultation():
     consul.mainloop()
 
 def enregistrer():
-
+    
+    
     registre= Tk()
     registre.title("s'enregister")
-    registre.geometry("500x500")
+    registre.geometry("500x600")
     registre.configure(borderwidth=2)
     registre.resizable(False, False)#empeche d'agrandir la fenetre
 
@@ -32,7 +34,7 @@ def enregistrer():
     labCivilite .pack()
     EntryCivilite = Entry(frame, width=90, borderwidth=3)
     EntryCivilite .pack(ipady=3)
-#EntryWeekEntry = ttk.Combobox(frame, width=10, state="readonly" )
+#EntrymoisEntry = ttk.Combobox(frame, width=10, state="readonly" )
     # EntryWeekEntry['values'] = (
     #     "janvier","février","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","décembre")
     # EntryWeekEntry.grid(row=1,column=1, padx=2, pady=10)
@@ -74,28 +76,30 @@ def enregistrer():
         list_enregist.append(dicty)
         print(list_enregist)
         try:
-            with open("/Users/imac-05/Desktop/projetTkinter/list_enregistres.json", "r") as f:
+            with open("/Users/imac-05/Desktop/projetTkinter/list_inscris.json", "r") as f:
                 json.load(f)
 
         except json.decoder.JSONDecodeError:
            
-            with open("/Users/imac-05/Desktop/projetTkinter/list_enregistres.json", "w") as f:
+            with open("/Users/imac-05/Desktop/projetTkinter/list_inscris.json", "w") as f:
                 json.dump(list_enregist, f, indent=4)
        
 
         else:
-            with open("/Users/imac-05/Desktop/projetTkinter/list_enregistres.json", "r") as f:
+            with open("/Users/imac-05/Desktop/projetTkinter/list_inscris.json", "r") as f:
                 json.load(f)
             list_enregist.append(dicty)    
 
-        with open("/Users/imac-05/Desktop/projetTkinter/list_enregistres.json", "w") as f:
+        with open("/Users/imac-05/Desktop/projetTkinter/list_inscris.json", "w") as f:
             json.dump(list_enregist, f, indent=4) 
 
         EntryCivilite.delete(0, END)
         EntryNom.delete(0, END)
         EntryPrenom.delete(0, END)
         EntryAge.delete(0, END)
-    Button(frame, text="s'enregistré", width=25, height=15, fg="red", font=('Arial', 23, "bold"), cursor="hand", command=data_rdv,).pack(pady=8, ipady=35,)
+       
+        
+    Button(frame, text="s'enregistré", width=25, height=10, fg="red", font=('Arial', 23, "bold"), cursor="hand", command=data_rdv,).pack(pady=8, ipady=35,)
     
      
     registre.mainloop()
@@ -114,41 +118,64 @@ def rendezVous():
 
     frame = Frame(rdz, width=350, height=450 , background="white", highlightbackground='white', highlightthickness=2)
     frame.pack(pady=60)
+    labCivilite = Label(frame, text="Civilité", width=11, font=('Condensed Italic', 15, "bold")).grid(row=0, column=0, pady=10)
+    entryCivilite = Entry(frame, width=11, borderwidth=3)
+    entryCivilite.grid(row=1, column=0)
 
-    labDate = Label(frame, text="Date du rendez-vous", width=30, font=('Arial', 20, "bold"))
-    labDate.grid(row=0, columnspan=3)
-    #la date 
+    labNom = Label(frame, text="Nom", width=11, font=('Condensed Italic', 15, "bold")).grid(row=0, column=1, pady=10)
+    entryNom = Entry(frame, width=11, borderwidth=3)
+    entryNom.grid(row=1, column=1)
+
+    labPrenom = Label(frame, text="Prenom", width=11, font=('Condensed Italic', 15, "bold")).grid(row=0, column=2, pady=10)
+    entryPrenom= Entry(frame, width=11,borderwidth=3)
+    entryPrenom.grid(row=1, column=2)
+
+    
+
+    labDate = Label(frame, text="Date du rendez-vous", width=30, font=('Condensed Italic', 20, "bold"))
+    labDate.grid(row=2, columnspan=3, pady=10)
+    
+    #
+
     #-----------les jours--------------
-    EntryYourEntry = ttk.Combobox(frame, width=10, state="readonly" )
-    EntryYourEntry['values'] = (
+    EntryJoursEntry = ttk.Combobox(frame, width=10, state="readonly" )
+    EntryJoursEntry['values'] = (
         "1","2","3","4","5","6","7","8","9","10","11","12","13","14"
         ,"15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31")
-    EntryYourEntry.grid(row=1, column=0, padx=2, pady=10)
-    EntryYourEntry.current(0) #selection par defaut
+    EntryJoursEntry.grid(row=3, column=0, padx=2, pady=10)
+    EntryJoursEntry.set("jour") #selection par defaut
     #--------------les mois-----------
-    EntryWeekEntry = ttk.Combobox(frame, width=10, state="readonly" )
-    EntryWeekEntry['values'] = (
+    EntrymoisEntry = ttk.Combobox(frame, width=10, state="readonly" )
+    EntrymoisEntry['values'] = (
         "janvier","février","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","décembre")
-    EntryWeekEntry.grid(row=1,column=1, padx=2, pady=10)
-    EntryWeekEntry.current(0) #selection par defaut
-
+    EntrymoisEntry.grid(row=3,column=1, padx=2, pady=10)
+    EntrymoisEntry.set("mois") #selection par defaut
+    
     #--------------annees-----------
     EntryAnneeEntry = ttk.Combobox(frame, width=10, state="readonly" )
     EntryAnneeEntry['values'] = ("2022","2023","2024")
-    EntryAnneeEntry.grid(row=1,column=2, padx=2, pady=10)
-    EntryAnneeEntry.current(0) #selection par defaut
+    EntryAnneeEntry.grid(row=3,column=2, padx=2, pady=10)
+    EntryAnneeEntry.set("annnée")#current(0) selection par defaut
 
     #medecin
-    labMedecin = Label(frame, text="Médécin", width=30, font=('Arial', 20, "bold"))
-    labMedecin .grid(row=2, column=0, columnspan=3)
+    labMedecin = Label(frame, text="Médécin", width=30, font=('Condensed Italic', 20, "bold"))
+    labMedecin .grid(row=4, column=0, columnspan=3)
 
     #choix du medecin
-    EntryMedecin = ttk.Combobox(frame, width=38, state="readonly")
+    EntryMedecin = ttk.Combobox(frame, width=43, state="readonly")
     EntryMedecin['values'] = ("Selectionez","homme","femme")
-    EntryMedecin.grid(row=3,column=0, columnspan=3, pady=10)
+    EntryMedecin.grid(row=4,column=0, columnspan=3, pady=10)
     EntryMedecin.current(0) #selection par defaut
+    def donneesRdv():
 
-    Button(frame, text="prendre-rdv", width=25, height=1, fg="red", font=('Arial', 23, "bold"), cursor="hand", ).grid(row=4, column=0, columnspan=3, pady=10, ipady=10)
+        dataRdv={
+            "jours": EntryJoursEntry.get(),
+            "mois": EntrymoisEntry.get(),
+            "annees": EntryAnneeEntry.get(),
+            "medecins": EntryMedecin.get(),
+        }
+        print(dataRdv)
+    Button(frame, text="prendre-rdv", width=25, height=1, fg="red", font=('Condensed Italic', 23, "bold"), cursor="hand", command=donneesRdv).grid(row=5, column=0, columnspan=3, pady=10, ipady=10)
     
     rdz.mainloop()
 
@@ -203,6 +230,7 @@ def s_inscrire():
         except json.JSONDecodeError:
             if EntryPassword.get() != EntryConfirPassword.get():
                 messagebox.showerror("Erreur","Mot de passe non identique!")
+
             elif EntryPassword.get()== EntryConfirPassword.get():
                 with open("/Users/imac-05/Desktop/projetTkinter/dataConnexion.json","w") as ouvFicheJson:
                     json.dump(listData, ouvFicheJson, indent=4)
@@ -223,7 +251,7 @@ def s_inscrire():
                     json.dump(donnee, ouvFicheJson, indent=4)   
             
                 messagebox.showinfo("validation reussie!","Inscription reuissie!")
-                
+
         EntryUser.delete(0, END)
         EntryEmail.delete(0, END)
         EntryPassword.delete(0, END)
@@ -231,12 +259,12 @@ def s_inscrire():
         
     btn = Button(frame, text="Insris", width=30, height=2, fg="red", font=('Arial', 18, "bold"), cursor="mouse", command=recupDonneCon)
     btn.pack( pady=20)
-
+    
     
     connexion.mainloop()  
     
 def connexion():
-
+    
     connexion = Tk()
     connexion.title("connexion")
     connexion.geometry("500x500")# taille de de la fenetre
@@ -260,23 +288,36 @@ def connexion():
     labPassword.pack()
     EntryPassword= Entry(frame, width=90,  borderwidth=3)
     EntryPassword.pack(ipady=3)
+
     def connecte():
         with open("/Users/imac-05/Desktop/projetTkinter/dataConnexion.json","r") as f:
             recupCompar = json.load(f)
-
+        print(recupCompar)
         for i in recupCompar:
+            
             for y in i.values():
                 if EntryEmail.get() in y and EntryPassword.get() in y:
                     messagebox.showinfo("reuissie", "vous êtes connectez!")
-                break
-            else:
-                messagebox.showerror("Error", "vous n'êtes pas inscris!")
-   
+                    print("ok")
+                elif EntryEmail.get()=="" or EntryPassword.get()=="":
+                    messagebox.showerror("Error", "Veuillez remplir tous les champs!")
+                    
+                
+                else:
+                    messagebox.showerror("Error", "vous n'êtes pas inscris!")
+        
         EntryEmail.delete(0, END)
         EntryPassword.delete(0, END)
+        
+
     
                   
-    btn = Button(frame, text="connecté", width=30, height=2, fg="red", font=('Arial', 18, "bold"), cursor="mouse", command=connecte)
+    btn = Button(frame, text="connecté", width=30, height=2, fg="red", font=('Arial', 18, "bold"), cursor="hand", command=connecte)
     btn.pack( pady=20) 
     
     connexion.mainloop()
+
+def listRdv():
+    pass
+def listUser():
+    pass
