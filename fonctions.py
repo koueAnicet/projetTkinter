@@ -76,21 +76,21 @@ def enregistrer():
         list_enregist.append(dicty)
         print(list_enregist)
         try:
-            with open("/Users/imac-05/Desktop/projetTkinter/list_inscris.json", "r") as f:
+            with open("list_inscris.json", "r") as f:
                 json.load(f)
 
         except json.decoder.JSONDecodeError:
            
-            with open("/Users/imac-05/Desktop/projetTkinter/list_inscris.json", "w") as f:
+            with open("list_inscris.json", "w") as f:
                 json.dump(list_enregist, f, indent=4)
        
 
         else:
-            with open("/Users/imac-05/Desktop/projetTkinter/list_inscris.json", "r") as f:
+            with open("list_inscris.json", "r") as f:
                 json.load(f)
             list_enregist.append(dicty)    
 
-        with open("/Users/imac-05/Desktop/projetTkinter/list_inscris.json", "w") as f:
+        with open("list_inscris.json", "w") as f:
             json.dump(list_enregist, f, indent=4) 
 
         EntryCivilite.delete(0, END)
@@ -183,20 +183,25 @@ def s_inscrire():
 
     connexion = Tk()
     connexion.title("connexion")
-    connexion.geometry("500x580")# taille de de la fenetre
+    connexion.geometry("500x680")# taille de de la fenetre
     connexion.configure( borderwidth=2)
     connexion.resizable(False, False)#empeche d'agrandir la fenetre
 
     labelConnexion = Label(connexion, text="Inscrivez-vous ici !", background="#1cd6d3", width=100, height=2, font=('Arial', 22, "bold"), fg='red')
     labelConnexion.pack()
 
-    frame = Frame(connexion, width=350, height=400 , background="white", highlightbackground='white', highlightthickness=2)
+    frame = Frame(connexion, width=350, height= 500 , background="white", highlightbackground='white', highlightthickness=2)
     frame.pack(pady=60)
 
-    labUser= Label(frame, text="Nom utilisation", width=90, font=('Arial', 20, "bold"))
-    labUser.pack()
-    EntryUser= Entry(frame, width=90, borderwidth=3,)
-    EntryUser.pack(ipady=3)
+    labNom= Label(frame, text="Nom", width=90, font=('Arial', 20, "bold"))
+    labNom.pack()
+    EntryNom= Entry(frame, width=90, borderwidth=3,)
+    EntryNom.pack(ipady=3)
+
+    labPrenom= Label(frame, text="Prenom", width=90, font=('Arial', 20, "bold"))
+    labPrenom.pack()
+    EntryPrenom= Entry(frame, width=90, borderwidth=3,)
+    EntryPrenom.pack(ipady=3)
 
     labEmail = Label(frame, text="Email", width=90, font=('Arial', 20, "bold"))
     labEmail.pack()
@@ -217,7 +222,8 @@ def s_inscrire():
         listData= []
     
         donnees ={
-            "user":  EntryUser.get(),
+            "Nom":  EntryNom.get(),
+            "Prenom":  EntryPrenom.get(),
             "Email":  EntryEmail.get(),
             "Password":  EntryConfirPassword.get()
         } 
@@ -225,34 +231,38 @@ def s_inscrire():
         
         listData.append(donnees)
         try: 
-            with open("/Users/imac-05/Desktop/projetTkinter/dataConnexion.json", "r") as ouvFicheJson:
+            with open("dataConnexion.json", "r") as ouvFicheJson:
                 json.load(ouvFicheJson)
         except json.JSONDecodeError:
             if EntryPassword.get() != EntryConfirPassword.get():
                 messagebox.showerror("Erreur","Mot de passe non identique!")
 
             elif EntryPassword.get()== EntryConfirPassword.get():
-                with open("/Users/imac-05/Desktop/projetTkinter/dataConnexion.json","w") as ouvFicheJson:
+                with open("dataConnexion.json","w") as ouvFicheJson:
                     json.dump(listData, ouvFicheJson, indent=4)
                 
                 messagebox.showinfo("validation reussie!","Inscription reuissie!")
 
         else:
-            with open("/Users/imac-05/Desktop/projetTkinter/dataConnexion.json", "r") as ouvFicheJson:
+            with open("dataConnexion.json", "r") as ouvFicheJson:
                 donnee =  json.load(ouvFicheJson)
 
             donnee.append(donnees)
             
             if  EntryPassword.get() != EntryConfirPassword.get():
                 messagebox.showerror("Erreur","Mot de passe non identique!")
+
+            elif EntryNom.get()=="" and EntryPrenom.get()=="" and EntryEmail.get()=="" and EntryConfirPassword.get()=="":
+                messagebox.showinfo("ChampVide!","remplissez tous les champs!")
             else:
             
-                with open("/Users/imac-05/Desktop/projetTkinter/dataConnexion.json","w") as ouvFicheJson:
+                with open("dataConnexion.json","w") as ouvFicheJson:
                     json.dump(donnee, ouvFicheJson, indent=4)   
             
                 messagebox.showinfo("validation reussie!","Inscription reuissie!")
 
-        EntryUser.delete(0, END)
+        EntryNom.delete(0, END)
+        EntryPrenom.delete(0, END)
         EntryEmail.delete(0, END)
         EntryPassword.delete(0, END)
         EntryConfirPassword.delete(0, END)
@@ -290,22 +300,20 @@ def connexion():
     EntryPassword.pack(ipady=3)
 
     def connecte():
-        with open("/Users/imac-05/Desktop/projetTkinter/dataConnexion.json","r") as f:
+        with open("dataConnexion.json","r") as f:
             recupCompar = json.load(f)
         print(recupCompar)
         for i in recupCompar:
             
-            for y in i.values():
-                if EntryEmail.get() in y and EntryPassword.get() in y:
-                    messagebox.showinfo("reuissie", "vous êtes connectez!")
-                    print("ok")
-                elif EntryEmail.get()=="" or EntryPassword.get()=="":
-                    messagebox.showerror("Error", "Veuillez remplir tous les champs!")
-                    
-                
-                else:
-                    messagebox.showerror("Error", "vous n'êtes pas inscris!")
-        
+            # for y in i.values():
+            if EntryEmail.get() in i.values() and EntryPassword.get() in i.values() :
+                messagebox.showinfo("reuissie", "vous êtes connectez!")
+                print("ok")
+            elif EntryEmail.get()=="" or EntryPassword.get()=="":
+                messagebox.showerror("Error", "Veuillez remplir tous les champs!")
+            else:
+                messagebox.showerror("Error", "vous n'êtes pas inscris!")
+            break
         EntryEmail.delete(0, END)
         EntryPassword.delete(0, END)
         

@@ -6,7 +6,7 @@ import fonctions
 def seconMenuPrinci():
     fenetre = Tk()
     fenetre.title("Demande de consultion")
-    fenetre.geometry("1900x1900")# taille de de la fenetre
+    fenetre.geometry()# taille de de la fenetre
     fenetre.configure(bg="#0be6e6")
     #fenetre.resizable(False, False)#empeche d'agrandir la fenetre
 
@@ -35,7 +35,7 @@ def seconMenuPrinci():
     # btn5.grid(row=0, column=5, padx=0, pady=25, ipady=5)
 
     #frame 
-    frame = Frame(fenetre, background="white", width=1900, height=1000 , relief="solid", highlightcolor="red", highlightthickness=2, )
+    frame = Frame(fenetre, background="white", width=1500, height=900 , relief="solid", highlightcolor="red", highlightthickness=2, )
     frame.grid(row=1,column=0, columnspan=6, pady=45)
 
     #recherche
