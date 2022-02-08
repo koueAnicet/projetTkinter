@@ -10,22 +10,20 @@ def seconMenuPrinci():
     fenetre.configure(bg="#0be6e6")
     #fenetre.resizable(False, False)#empeche d'agrandir la fenetre
 
-    btn = Button(fenetre, text="S'engerister", font=('Condensed Italic', 13, "bold"), fg='black', command=fonctions.enregistrer)
-    btn
-
-    btn.grid(row=0, column=0, padx=10, pady=25, ipady=5)
+    # btn = Button(fenetre, text="S'engerister", font=('Condensed Italic', 13, "bold"), fg='black', command=fonctions.enregistrer)
+    # btn.grid(row=0, column=0, padx=10, pady=25, ipady=5)
 
     # btn1 = Button(fenetre, text="Consultation", font=('Condensed Italic', 13, "bold"), fg='black', command=fonctions.consultation)
     # btn1.grid(row=0, column=1, padx=0, pady=25, ipady=5)
 
     btn2 = Button(fenetre, text="Rendez-Vous", font=('Condensed Italic', 13, "bold"), fg='black', command=fonctions.rendezVous)
-    btn2.grid(row=0, column=2, padx=0, pady=25, ipady=5)
+    btn2.grid(row=0, column=1, padx=0, pady=25, ipady=5)
 
     btn3 = Button(fenetre, text="Resultat/Diagnostique", font=('Arial', 13, "bold"), fg='black', command=fonctions.consultation)
-    btn3.grid(row=0, column=3, padx=0, pady=25, ipady=5)
+    btn3.grid(row=0, column=2, padx=0, pady=25, ipady=5)
 
     btn4 = Button(fenetre, text="Admin", font=('Condensed Italic', 13, "bold"), fg='black',command=fonctions.adminConnexion)
-    btn4.grid(row=0, column=4, padx=0, pady=25, ipady=5)
+    btn4.grid(row=0, column=3, padx=0, pady=25, ipady=5)
 
 
     # btn5 = Button(fenetre, text="S'inscrire'", font=('Condensed Italic', 13, "bold"), fg='black', command=fonctions.s_inscrire)

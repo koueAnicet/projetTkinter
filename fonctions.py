@@ -208,6 +208,11 @@ def s_inscrire():
     EntryEmail= Entry(frame, width=90, borderwidth=3)
     EntryEmail.pack(ipady=3)
 
+    labContact = Label(frame, text="Contact", width=90, font=('Arial', 20, "bold"))
+    labContact.pack()
+    EntryContact= Entry(frame, width=90, borderwidth=3)
+    EntryContact.pack(ipady=3)
+
     labPassword = Label(frame ,text="Mot de pass", width=90, font=('Arial', 20, "bold"))
     labPassword.pack()
     EntryPassword= Entry(frame, width=90,  borderwidth=3)
@@ -225,6 +230,7 @@ def s_inscrire():
             "Nom":  EntryNom.get(),
             "Prenom":  EntryPrenom.get(),
             "Email":  EntryEmail.get(),
+            "Email":  EntryContact.get(),
             "Password":  EntryConfirPassword.get()
         } 
 
@@ -264,6 +270,7 @@ def s_inscrire():
         EntryNom.delete(0, END)
         EntryPrenom.delete(0, END)
         EntryEmail.delete(0, END)
+        EntryContact.delete(0, END)
         EntryPassword.delete(0, END)
         EntryConfirPassword.delete(0, END)
         
@@ -376,6 +383,8 @@ def adminConnexion():
     btn.pack( pady=20) 
     
     connexion.mainloop()
+
+    
 def listRdv():
     pass
 def listUser():

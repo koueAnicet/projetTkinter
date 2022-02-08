@@ -2,6 +2,7 @@ import pageUser
 import fonctions
 from tkinter import*
 from PIL import ImageTk,Image
+
 accueil =Tk()
 def screen():
     
@@ -29,6 +30,6 @@ btn3.grid(row=0, column=2 ,padx=120, pady=20, ipady=10)
 #frame =Frame(accueil, width=1200,height=900, bg="#00ffc8", ).grid(row=1, columnspan=2,ipady=0, pady=30)
 
 img = ImageTk.PhotoImage(Image.open("hospi.jpeg"))
-img_label=Label(accueil, image= img, width=1000, height=900).grid(row=1, column=0,columnspan=3, )
+img_label=Label(accueil, image= img, width=1000, height=1000).grid(row=1, column=0,columnspan=3, )
 
 accueil.mainloop()
