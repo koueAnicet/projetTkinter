@@ -99,7 +99,7 @@ def enregistrer():
         EntryAge.delete(0, END)
        
         
-    Button(frame, text="s'enregistré", width=25, height=10, fg="red", font=('Arial', 23, "bold"), cursor="hand", command=data_rdv,).pack(pady=8, ipady=35,)
+    Button(frame, text="s'enregistré", width=25, height=10, fg="red", font=('Arial', 23, "bold"), cursor="hand1", command=data_rdv,).pack(pady=8, ipady=35,)
     
      
     registre.mainloop()
@@ -175,7 +175,7 @@ def rendezVous():
             "medecins": EntryMedecin.get(),
         }
         print(dataRdv)
-    Button(frame, text="prendre-rdv", width=25, height=1, fg="red", font=('Condensed Italic', 23, "bold"), cursor="hand", command=donneesRdv).grid(row=5, column=0, columnspan=3, pady=10, ipady=10)
+    Button(frame, text="prendre-rdv", width=25, height=1, fg="red", font=('Condensed Italic', 23, "bold"), cursor="hand1", command=donneesRdv).grid(row=5, column=0, columnspan=3, pady=10, ipady=10)
     
     rdz.mainloop()
 
@@ -320,11 +320,62 @@ def connexion():
 
     
                   
-    btn = Button(frame, text="connecté", width=30, height=2, fg="red", font=('Arial', 18, "bold"), cursor="hand", command=connecte)
+    btn = Button(frame, text="connecté", width=30, height=2, fg="red", font=('Arial', 18, "bold"), cursor="hand1", command=connecte)
     btn.pack( pady=20) 
     
     connexion.mainloop()
 
+def adminConnexion():
+    
+    connexion = Tk()
+    connexion.title("connexionAdmin")
+    connexion.geometry("500x500")# taille de de la fenetre
+    connexion.configure( borderwidth=2)
+    connexion.resizable(False, False)#empeche d'agrandir la fenetre
+
+    labelConnexion = Label(connexion, text="Connectez-vous ici !", background="#1cd6d3", width=100, height=2, font=('Arial', 22, "bold"), fg='red')
+    labelConnexion.pack()
+
+    frame = Frame(connexion, width=350, height=350 , background="white", highlightbackground='white', highlightthickness=2)
+    frame.pack(pady=60)
+
+    
+
+    labEmail = Label(frame, text="Email", width=90,  font=('Arial', 20, "bold"))
+    labEmail.pack()
+    EntryEmail= Entry(frame, width=90, borderwidth=3)
+    EntryEmail.pack(ipady=3)
+
+    labPassword = Label(frame ,text="Mot de pass", width=90, font=('Arial', 20, "bold"))
+    labPassword.pack()
+    EntryPassword= Entry(frame, width=90,  borderwidth=3)
+    EntryPassword.pack(ipady=3)
+
+    def connecteAdmin():
+        with open("dataAdmin.json","r") as f:
+            recupCompar = json.load(f)
+        print(recupCompar)
+        for i in recupCompar:
+            
+            # for y in i.values():
+            if EntryEmail.get() in i.values() and EntryPassword.get() in i.values() :
+                messagebox.showinfo("reuissie", "vous êtes connectez!")
+                print("ok")
+            elif EntryEmail.get()=="" or EntryPassword.get()=="":
+                messagebox.showerror("Error", "Veuillez remplir tous les champs!")
+            else:
+                messagebox.showerror("Error", "vous n'êtes pas inscris!")
+            break
+        EntryEmail.delete(0, END)
+        EntryPassword.delete(0, END)
+        
+
+    
+                  
+    btn = Button(frame, text="connecté", width=30, height=2, fg="red", font=('Arial', 18, "bold"), cursor="hand1", command=connecteAdmin)
+    btn.pack( pady=20) 
+    
+    connexion.mainloop()
 def listRdv():
     pass
 def listUser():
